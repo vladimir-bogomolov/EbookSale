@@ -1,7 +1,9 @@
 const express = require('express');
-const stripe = require('stripe')('sk_test_51HWKqVC5ynsFOOpcB5DiAqEWQuIAbGj9cCnIwj7FmdyMy4lcgSeDAVrEAOqErlbjDHmgO4DBWV8y4QfmSZ9OZrKJ00rc1gU70N');
+const keys = require('./config/keys.js');
+const stripe = require('stripe')(keys.stripeSecretKey);
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
+
 
 const app = express();
 
@@ -17,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(`${__dirname}/public`));
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', {stripePublishableKey: keys.stripePublishableKey});
 });
 
 app.post('/charge', (req, res) => {
